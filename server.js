@@ -15,7 +15,15 @@ const typeDefs = gql`
     allTweets: [Tweet]
     tweet(id: ID): Tweet
   }
+  type Mutation {
+    postTweet(text: String, userId: ID): Tweet
+    deleteTweet(id: ID): Boolean
+  }
 `;
+// GET /api/v1/tweets
+// GET /api/v1/tweet/:id
+// Mutation 안에 => url을 노출시키고  POST HTTP 메소드로 관리하는 것과 유사
+// Query 안에 => REST API의 세상에서 GET HTTP 메소드로 url을 만들고 노출하는 것과 유사
 
 const server = new ApolloServer({ typeDefs });
 
