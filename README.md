@@ -76,3 +76,34 @@ mutation{
   }
 }
 ```
+
+# 4.4 Non Nullable Fields
+
+## '!' 없는 필드는 Nullable 필드
+
+null을 허용하므로 아래 둘 다 가능
+
+```javascript
+{
+  tweet(id: "1212") {
+    text
+  }
+}
+```
+
+```javascript
+{
+  tweet {
+    text
+  }
+}
+```
+
+## 코드 해석
+
+```javascript
+  type Query {
+    allTweets: [Tweet]! // [Tweet, null, Tweet]!
+    tweet(id: ID!): Tweet
+  }
+```
