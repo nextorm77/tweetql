@@ -22,6 +22,18 @@ npm run dev
 http://localhost:4000/
 ```
 
+## 아폴로 서버 인수내 'type Query'는 필수, 없으면 서버 기동조차 에러
+
+```javascript
+const typeDefs = gql`
+  ...
+  type Query {
+    ...
+  }
+  ...
+`;
+```
+
 # 4.2 Scalar and Root Types
 
 ## REST API와 비교
@@ -35,7 +47,7 @@ type Query {
 
 # 4.3 Mutation Type
 
-## Apolo 서버 studio내 "operation" 내
+## Apolo 서버 studio > "operation"
 
 ### Query 경우
 
@@ -106,4 +118,62 @@ null을 허용하므로 아래 둘 다 가능
     allTweets: [Tweet]! // [Tweet, null, Tweet]!
     tweet(id: ID!): Tweet
   }
+```
+
+# 4.6 Query Resolvers
+
+## Apolo 서버 studio > "operation" 의 테스트 질의어(?)
+
+```javascript
+{
+  allTweets {
+    text
+  }
+  tweet(id:"1"){
+    id
+    text
+  }
+}
+```
+
+# 4.7 Mutation Resolvers
+
+## Apolo 서버 studio > "operation" 의 테스트 질의어(?)
+
+```javascript
+mutation{
+  postTweet(text:"4th one", userId:"1"){
+    id
+    text
+  }
+}
+```
+
+```javascript
+{
+  allTweets {
+    id
+    text
+  }
+}
+```
+
+## studio의 인수 자동 완성 기능
+
+위 질의어 코드를 [Operation]에서 tab하여 자동완성 후 하단의 [Variable]에서 해당 인수 입력
+
+[Operation]
+
+```javascript
+mutation($deleteTweetId: ID!){
+  deleteTweet(id: $deleteTweetId)
+}
+```
+
+[Variables]
+
+```javascript
+{
+  "deleteTweetId": null
+}
 ```
