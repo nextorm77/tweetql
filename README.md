@@ -160,7 +160,7 @@ mutation{
 
 ## studio의 인수 자동 완성 기능
 
-위 질의어 코드를 [Operation]에서 tab하여 자동완성 후 하단의 [Variable]에서 해당 인수 입력
+위 질의어 코드를 [Operation]에서 tab하여 자동완성되면 하단의 [Variable]에서 해당 argument(인수) 입력
 
 [Operation]
 
@@ -170,7 +170,7 @@ mutation($deleteTweetId: ID!){
 }
 ```
 
-[Variables]
+[Variables] : null => " " 안에 argument(인수) 입력
 
 ```javascript
 {

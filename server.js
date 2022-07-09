@@ -4,10 +4,12 @@ let tweets = [
   {
     id: "1",
     text: "first one!",
+    userId: "2",
   },
   {
     id: "2",
     text: "second one!",
+    userId: "1",
   },
 ];
 
@@ -43,7 +45,7 @@ const typeDefs = gql`
     tweet(id: ID!): Tweet
   }
   type Mutation {
-    postTweet(text: String!, userId: ID!): Tweet!
+    postTweet(text: String!, userId: ID!): Boolean!
     deleteTweet(id: ID!): Boolean!
   }
 `;
@@ -63,18 +65,21 @@ const resolvers = {
       return tweets.find((tweet) => tweet.id === id);
     },
     allUsers() {
-      console.log("allUsers called");
+      //console.log("allUsers called");
       return users;
     },
   },
   Mutation: {
     postTweet(_, { text, userId }) {
+      const user = users.find((user) => user.id === userId);
+      if (!user) return false;
       const newTweet = {
         id: tweets.length + 1,
         text: text,
+        userId: userId,
       };
       tweets.push(newTweet);
-      return newTweet;
+      return true;
     },
     deleteTweet(_, { id }) {
       const tweet = tweets.find((tweet) => tweet.id === id);
@@ -85,15 +90,15 @@ const resolvers = {
   },
   /*
   User: {
-    // 해당 DB 필드가 null이 아닌 값이 있어도
-    // 리턴 값으로 대체
+    // 해당 DB 필드에 값(not null)이 있어도
+    // 해당 필드 resolver 함수 리턴 값으로 대체
     firstName() {
       console.log("firstName called");
       return "DB value intercepted";
       //return null; // Non Nullable 필드이므로 에러 발생
     },
     // 해당 DB 필드가 null이어서 관련 에러 발생할 경우,
-    //  null 아닌 값을 반환하여 에러 방지
+    // null 아닌 값을 해당 필드 resolver가 반환하여 에러 방지
     fullName(root) {
       console.log("fullName called!");
       console.log(root);
@@ -104,6 +109,17 @@ const resolvers = {
   User: {
     fullName({ firstName, lastName }) {
       return `${firstName} ${lastName}`;
+    },
+  },
+  // author resolver의 argument(인수)는
+  // tweets의 객체들
+  // tweets는 author resolver를 호출하는
+  // allTweets resolver에서 전달?
+  Tweet: {
+    author({ userId }) {
+      // 여기서 리턴된 객체(User 타입)가
+      // fullName 리졸버의 첫째 인수(root)로 전달?
+      return users.find((user) => user.id === userId);
     },
   },
 };
