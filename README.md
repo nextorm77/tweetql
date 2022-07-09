@@ -177,3 +177,63 @@ mutation($deleteTweetId: ID!){
   "deleteTweetId": null
 }
 ```
+
+# 4.10 Documentation
+
+## 각각의 요소에 주석 달기
+
+요소 상단에 아래와 같이 주석을 쓰면 apolo studio "Schema" 메뉴, graphql 클라이언트(altair)를 통해 해당 주석을 확인 가능
+
+- graphql 클라이언트(altair): [https://altair.sirmuel.design/] 하단 Web 방식으로 쉽게 테스트 가능
+
+- 1. "POST" 입력란에 apolo 서버 주소 입력하고 "Send Request", 2. "Docs" 클릭
+
+```javascript
+  ...
+
+  """
+  Tweet object represents a resource for a tweet
+  """
+  type Tweet {
+    id: ID!
+    text: String!
+    author: User
+  }
+
+  ...
+```
+
+# 4.11 Migrating from REST to Graphsql
+
+## 요지
+
+REST API 로 데이터를 몽땅 메모리로 불러서 해당 resolver에 연결
+
+### REST API 변환 대상 구조(필드명) 복사 => 노가다
+
+- 대상: [https://yts.mx/api/v2/list_movies.json], [https://yts.mx/api/v2/movie_details.json?movie_id=10]
+
+- 브라우저 화면에 표시된 배열의 요소 하나(객체)를 복사하고 브라우저 콘솔에서 다음과 같이 필드명만 추출
+
+```javascript
+const movie = {복사된 객체 정보};
+Object.keys(movie);
+```
+
+### 필드명만 남기기 위해 불필요 문자 제거 => 노가다
+
+### 테스트를 단순화하기 위해 "torrents" 필드 등 제거
+
+- 테스트 용도이므로 솔직히 필드명 중 몇 개만 사용해도 됨, 실자료의 DB 필드와 불일치(갯수, 필드명)해도 정상 동작
+
+- 실 DB에 없는 필드명 사용시 nullable 필드로 변경
+
+### 실행하면 "fetch is not defined" 에러 발생 => 아래와 같이 조치(fetch 함수 패키지 필요)
+
+```bash
+npm i node-fetch
+```
+
+### REST API가 달라서 필드 구조가 완벽하게 일치하지 않아도 "!"를 제거하여 nullable 필드로 변경하고 임시 처리
+
+### graphql 클라이언트(altair) 와 apolo 서버를 사용하여 상호 테스트
