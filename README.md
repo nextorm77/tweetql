@@ -237,3 +237,7 @@ npm i node-fetch
 ### REST API가 달라서 필드 구조가 완벽하게 일치하지 않아도 "!"를 제거하여 nullable 필드로 변경하고 임시 처리
 
 ### graphql 클라이언트(altair) 와 apolo 서버를 사용하여 상호 테스트
+
+# 4.12 GraphQL and Beyond
+
+### hasura[https://hasura.io/]: 사용중인 DB를 변환작업 없이 GraphQL APIs 로 만들어 줌
