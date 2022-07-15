@@ -51,14 +51,14 @@ const typeDefs = gql`
     allUsers: [User!]!
     allTweets: [Tweet!]!
     tweet(id: ID!): Tweet
-    movie(id: Int!): Movie
+    movie(id: ID!): Movie
   }
   type Mutation {
     postTweet(text: String!, userId: ID!): Boolean!
     deleteTweet(id: ID!): Boolean!
   }
   type Movie {
-    id: Int!
+    id: ID!
     url: String!
     imdb_code: String!
     title: String!

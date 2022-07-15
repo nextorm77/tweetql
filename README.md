@@ -241,3 +241,9 @@ npm i node-fetch
 # 4.12 GraphQL and Beyond
 
 ### hasura[https://hasura.io/]: 사용중인 DB를 변환작업 없이 GraphQL APIs 로 만들어 줌
+
+# 추가 수정
+
+## Movie id의 스칼라 타입을 int => ID로 변경
+
+- movie 쿼리도 변경
